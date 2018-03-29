@@ -17,11 +17,6 @@ void ABombermanClonePlayerController::PlayerTick(float DeltaTime)
 {
 	Super::PlayerTick(DeltaTime);
 
-	// keep updating the destination every tick while desired
-	if (bMoveToMouseCursor)
-	{
-		MoveToMouseCursor();
-	}
 }
 
 void ABombermanClonePlayerController::SetupInputComponent()
@@ -32,56 +27,6 @@ void ABombermanClonePlayerController::SetupInputComponent()
 	InputComponent->BindAction("SetDestination", IE_Pressed, this, &ABombermanClonePlayerController::OnSetDestinationPressed);
 	InputComponent->BindAction("SetDestination", IE_Released, this, &ABombermanClonePlayerController::OnSetDestinationReleased);
 
-	// support touch devices 
-	InputComponent->BindTouch(EInputEvent::IE_Pressed, this, &ABombermanClonePlayerController::MoveToTouchLocation);
-	InputComponent->BindTouch(EInputEvent::IE_Repeat, this, &ABombermanClonePlayerController::MoveToTouchLocation);
-
-	InputComponent->BindAction("ResetVR", IE_Pressed, this, &ABombermanClonePlayerController::OnResetVR);
-}
-
-void ABombermanClonePlayerController::OnResetVR()
-{
-	UHeadMountedDisplayFunctionLibrary::ResetOrientationAndPosition();
-}
-
-void ABombermanClonePlayerController::MoveToMouseCursor()
-{
-	if (UHeadMountedDisplayFunctionLibrary::IsHeadMountedDisplayEnabled())
-	{
-		if (ABombermanCloneCharacter* MyPawn = Cast<ABombermanCloneCharacter>(GetPawn()))
-		{
-			if (MyPawn->GetCursorToWorld())
-			{
-				UNavigationSystem::SimpleMoveToLocation(this, MyPawn->GetCursorToWorld()->GetComponentLocation());
-			}
-		}
-	}
-	else
-	{
-		// Trace to see what is under the mouse cursor
-		FHitResult Hit;
-		GetHitResultUnderCursor(ECC_Visibility, false, Hit);
-
-		if (Hit.bBlockingHit)
-		{
-			// We hit something, move there
-			SetNewMoveDestination(Hit.ImpactPoint);
-		}
-	}
-}
-
-void ABombermanClonePlayerController::MoveToTouchLocation(const ETouchIndex::Type FingerIndex, const FVector Location)
-{
-	FVector2D ScreenSpaceLocation(Location);
-
-	// Trace to see what is under the touch location
-	FHitResult HitResult;
-	GetHitResultAtScreenPosition(ScreenSpaceLocation, CurrentClickTraceChannel, true, HitResult);
-	if (HitResult.bBlockingHit)
-	{
-		// We hit something, move there
-		SetNewMoveDestination(HitResult.ImpactPoint);
-	}
 }
 
 void ABombermanClonePlayerController::SetNewMoveDestination(const FVector DestLocation)

@@ -10,10 +10,20 @@ ABombermanCloneGameMode::ABombermanCloneGameMode()
 	// use our custom PlayerController class
 	PlayerControllerClass = ABombermanClonePlayerController::StaticClass();
 
-	// set default pawn class to our Blueprinted character
-	static ConstructorHelpers::FClassFinder<APawn> PlayerPawnBPClass(TEXT("/Game/TopDownCPP/Blueprints/TopDownCharacter"));
-	if (PlayerPawnBPClass.Class != NULL)
-	{
-		DefaultPawnClass = PlayerPawnBPClass.Class;
-	}
+}
+
+void ABombermanCloneGameMode::BeginPlay()
+{
+	Super::BeginPlay();
+}
+
+
+void ABombermanCloneGameMode::RestartGame()
+{
+	
+}
+
+void ABombermanCloneGameMode::SaveScore(int32 Winner)
+{
+
 }

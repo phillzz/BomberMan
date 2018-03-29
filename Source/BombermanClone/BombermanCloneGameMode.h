@@ -13,6 +13,15 @@ class ABombermanCloneGameMode : public AGameModeBase
 
 public:
 	ABombermanCloneGameMode();
+	
+	virtual void BeginPlay() override;
+	//Set defaults for game
+	void RestartGame();
+
+	//Save CurrentResults
+	UFUNCTION(BlueprintCallable, Category = GameMode)
+	void SaveScore(int32 Winner);
+
 };
 
 
