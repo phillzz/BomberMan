@@ -31,7 +31,6 @@ FTransform AGameGrid::GridSizeToLocation(int32 ID)
 void AGameGrid::BeginPlay()
 {
 	Super::BeginPlay();
-	UE_LOG(LogTemp, Warning, TEXT("GameGridTemplate"));
 }
 
 // Called every frame

@@ -17,20 +17,12 @@ void ABombermanCloneGameMode::BeginPlay()
 	Super::BeginPlay();
 	
 	ResetGame();
-	//Get Game State
-		//If Game Over get score and ask for restart
-	//if no quit
 }
 
 
 void ABombermanCloneGameMode::ResetGame()
 {
 	SpawnGrid();
-}
-
-void ABombermanCloneGameMode::SaveScore(int32 Winner)
-{
-
 }
 
 void ABombermanCloneGameMode::SpawnGrid()
