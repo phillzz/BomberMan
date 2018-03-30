@@ -27,17 +27,20 @@ ABombermanCloneCharacter::ABombermanCloneCharacter()
 	// Activate ticking in order to update the cursor every frame.
 	PrimaryActorTick.bCanEverTick = true;
 	PrimaryActorTick.bStartWithTickEnabled = true;
+
+	ResetActorDefaults();
 }
 
 void ABombermanCloneCharacter::Tick(float DeltaSeconds)
 {
     Super::Tick(DeltaSeconds);
+	
 }
 
 void ABombermanCloneCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	ResetActorDefaults();
+	
 }
 
 void ABombermanCloneCharacter::ResetActorDefaults()
