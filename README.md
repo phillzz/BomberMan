@@ -1,10 +1,6 @@
-_________              ___.                   _____                 
-\______   \ ____   _____\_ |__   ___________  /     \ _____    ____  
- |    |  _//  _ \ /     \| __ \_/ __ \_  __ \/  \ /  \\__  \  /    \ 
- |    |   (  <_> )  Y Y  \ \_\ \  ___/|  | \/    Y    \/ __ \|   |  \
- |______  /\____/|__|_|  /___  /\___  >__|  \____|__  (____  /___|  /
-        \/             \/    \/     \/              \/     \/     \/ 
+BomberMan Clone
 
+Unreal Engine 4.19.0
 ---------------------------------------------------------------------
 Controls:
 	
@@ -36,7 +32,7 @@ Classes:
 	Interaction - Interface implemented on most objects
 	BP_Camera - Contain camera interpolation view logic for 2 players 
 	UndestructableWall - objects that can't be destroyed.
-	DestructableWall_Child - child object of class UndestructableWall that can be blown up. In 30% spawn random pickup or bomb.
+	DestructableWall_Child - objects that can be blown up. In 30% spawn random pickup or bomb.
 	BP_Bomb - Blows after 1s as spawned.
 	BP_RemoteBomb - Blows on key press (player 1: space bar, player 2 numLock 0) 
 	Pickups:
