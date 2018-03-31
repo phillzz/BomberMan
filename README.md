@@ -61,4 +61,6 @@ All Game related content can be found in BombermanFolder. Note some times you ca
 
 Only task that wasn't done: Bonus: AI enemies that behave like a player.
 
+Spended time  ~25 hours
+
 
