@@ -15,7 +15,6 @@ ABombermanCloneGameMode::ABombermanCloneGameMode()
 void ABombermanCloneGameMode::BeginPlay()
 {
 	Super::BeginPlay();
-	
 	ResetGame();
 }
 
@@ -27,10 +26,8 @@ void ABombermanCloneGameMode::ResetGame()
 
 void ABombermanCloneGameMode::SpawnGrid()
 {
-
 	if (BPGameGrid != NULL)
 	{
-
 		UWorld* const World = GetWorld();
 		if (World)
 		{
@@ -43,7 +40,5 @@ void ABombermanCloneGameMode::SpawnGrid()
 
 			AGameGrid* const NewGameGrid = World->SpawnActor<AGameGrid>(BPGameGrid, Location, FRotator::ZeroRotator, SpawnParams);
 		}
-
 	}
-
 }

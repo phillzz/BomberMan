@@ -14,7 +14,6 @@ class ABombermanCloneCharacter : public ACharacter
 public:
 	ABombermanCloneCharacter();
 
-	// Called every frame.
 	virtual void Tick(float DeltaSeconds) override;
 	virtual void BeginPlay() override;
 
@@ -37,9 +36,5 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Bomb)
 		bool bFirstClick;
-
-private:
-	
-
 };
 

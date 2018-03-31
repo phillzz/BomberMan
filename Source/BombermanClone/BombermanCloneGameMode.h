@@ -16,13 +16,14 @@ class ABombermanCloneGameMode : public AGameModeBase
 public:
 	ABombermanCloneGameMode();
 	
-	//TODO: Flow Control
-	void SpawnGrid();
-	void ResetGame();
-	virtual void BeginPlay() override;
-
 	UPROPERTY(EditAnywhere, Category = "GameGrid")
 		TSubclassOf<class AGameGrid> BPGameGrid;
+
+	virtual void BeginPlay() override;
+
+private:
+	void SpawnGrid();
+	void ResetGame();
 };
 
 

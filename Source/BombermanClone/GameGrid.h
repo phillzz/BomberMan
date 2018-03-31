@@ -12,21 +12,22 @@ class BOMBERMANCLONE_API AGameGrid : public AActor
 	GENERATED_BODY()
 	
 public:	
-	// Sets default values for this actor's properties
+
 	AGameGrid();
-	void Reset();
 
 	UFUNCTION(BlueprintPure, Category = GameMode)
 		FTransform GridSizeToLocation(int32 ID);
 
-	TSubclassOf<AGameGrid> BP_GameGrid;;
+	void Reset();
+
 protected:
-	// Called when the game starts or when spawned
+
 	virtual void BeginPlay() override;
 
 public:	
-	// Called every frame
+
 	virtual void Tick(float DeltaTime) override;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = GameGrid)
 		int32 iSize;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = GameGrid)

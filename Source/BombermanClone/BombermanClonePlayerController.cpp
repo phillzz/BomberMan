@@ -3,7 +3,6 @@
 #include "BombermanClonePlayerController.h"
 #include "AI/Navigation/NavigationSystem.h"
 #include "Runtime/Engine/Classes/Components/DecalComponent.h"
-#include "HeadMountedDisplayFunctionLibrary.h"
 #include "BombermanCloneCharacter.h"
 #include "Engine/World.h"
 
@@ -16,7 +15,6 @@ ABombermanClonePlayerController::ABombermanClonePlayerController()
 void ABombermanClonePlayerController::PlayerTick(float DeltaTime)
 {
 	Super::PlayerTick(DeltaTime);
-
 }
 
 void ABombermanClonePlayerController::SetupInputComponent()
@@ -26,7 +24,6 @@ void ABombermanClonePlayerController::SetupInputComponent()
 
 	InputComponent->BindAction("SetDestination", IE_Pressed, this, &ABombermanClonePlayerController::OnSetDestinationPressed);
 	InputComponent->BindAction("SetDestination", IE_Released, this, &ABombermanClonePlayerController::OnSetDestinationReleased);
-
 }
 
 void ABombermanClonePlayerController::SetNewMoveDestination(const FVector DestLocation)
