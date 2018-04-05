@@ -69,3 +69,4 @@ FTransform ABombermanCloneCharacter::SpawnTransform()
 	Transform.SetLocation(GetActorLocation() + GetActorForwardVector() * 100.f);
 	return Transform;
 }
+
