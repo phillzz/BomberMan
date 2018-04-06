@@ -36,4 +36,6 @@ public:
 		int32 GridDimensions;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = GameGrid)
 		int32 DestructablesAmount;
+
+	float CellSize;
 };

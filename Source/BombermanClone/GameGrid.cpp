@@ -17,6 +17,7 @@ void AGameGrid::Reset()
 	jSize = 0;
 	GridDimensions = 13;
 	DestructablesAmount = 3;
+	CellSize = 200;
 }
 
 FTransform AGameGrid::GridSizeToLocation(int32 ID)

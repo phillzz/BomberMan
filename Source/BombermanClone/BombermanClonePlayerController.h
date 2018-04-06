@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "GameGrid.h"
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
 #include "BombermanClonePlayerController.generated.h"
