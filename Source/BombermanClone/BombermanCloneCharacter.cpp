@@ -75,7 +75,10 @@ FTransform ABombermanCloneCharacter::SpawnTransform()
 	int32 ID = x * 13 + y;
 
 	// Disable spawn at non grid location
+	if (ID == 0)
+	{
 
+	}
 	// Transform location to Grid ID
 			
 	// Disable spawn at non horizontal or vertical locations
