@@ -73,3 +73,10 @@ Intermediate/*
 
 # Cache files for the editor to use
 DerivedDataCache/*
+
+# Temporary working assets
+BomberMan/Content/InfinityBladeEffects
+BomberMan/Content/MixamoAnimPack
+BomberMan/Content/SoulCity
+BomberMan/Content/StarterContent
+BomberMan/Content/TextureFog
