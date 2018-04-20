@@ -7,6 +7,7 @@
 #include "GameFramework/Actor.h"
 #include "UndestructableObstacle.h"
 #include <vector>
+#include <array>
 #include "GameGrid.generated.h"
 
 UCLASS()
@@ -19,12 +20,19 @@ public:
 
 	virtual void Tick(float DeltaTime) override;
 
+	UFUNCTION(BlueprintPure, Category = GameGrid)
+		FTransform GridSizeToLocation(int32 ID);
+	UFUNCTION(blueprintcallable, Category = GameGrid)
+		void SetUnbreakables();
+	UFUNCTION(blueprintcallable, Category = GameGrid)
+		void SetBreakables();
+	UFUNCTION(blueprintcallable, Category = GameGrid)
+		void SetSpawnPoints();
+	UFUNCTION(blueprintcallable, Category = GameGrid)
+		void Debug();
+
 	float CellSize;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = GameGrid)
-		int32 iSize;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = GameGrid)
-		int32 jSize;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = GameGrid)
 		int32 GridDimensions;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = GameGrid)
@@ -32,28 +40,10 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = GameGrid)
 		TArray<int32> LocationToGridArray;
 		
-
-	UFUNCTION(BlueprintPure, Category = GameGrid)
-		FTransform GridSizeToLocation(int32 ID);
-	UFUNCTION(blueprintcallable, Category = GameGrid)
-		void SetUnbreakablesID();
-	UFUNCTION(blueprintcallable, Category = GameGrid)
-		void SetBreakablesID();
-	UFUNCTION(blueprintcallable, Category = GameGrid)
-		void Debug();
-
 protected:
-
 	virtual void BeginPlay() override;
 
 private: 
-	//std::vector<int32> LocationToGrid;
-	// temp
-	int32 breakablesCounter = 0;
-	int32 UnbreakablesCounter = 0;
-	
-
 	void Reset();
 	void ResizeGrid();
-	void SetSpawnPoints();
 };

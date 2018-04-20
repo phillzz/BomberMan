@@ -8,14 +8,12 @@
 AGameGrid::AGameGrid()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
 	Reset();
 }
 
 void AGameGrid::Reset()
 {
-	iSize = 1;
-	jSize = 1;
 	GridDimensions = 13;
 	DestructablesAmount = 3;
 	CellSize = 200;
@@ -47,49 +45,44 @@ void AGameGrid::Tick(float DeltaTime)
 void AGameGrid::ResizeGrid()
 {
 	LocationToGridArray.Init(0, GridDimensions*GridDimensions);
-	//Vector
-	//LocationToGrid.resize(GridDimensions*GridDimensions);
 }
 
 // Functions Defenition
-void AGameGrid::SetUnbreakablesID()
+void AGameGrid::SetUnbreakables()
 {
-	for (iSize = 1; iSize < GridDimensions - 1; iSize = iSize + 2)
+	for (int32 i = 1; i < GridDimensions - 1; i = i + 2)
 	{
-		for (jSize = 1; jSize < GridDimensions - 1; jSize = jSize +2)
+		for (int32 j = 1; j < GridDimensions - 1; j = j +2)
 		{
-			LocationToGridArray[iSize * GridDimensions + jSize] = 1;
-			UnbreakablesCounter = UnbreakablesCounter + 1;
+			LocationToGridArray[i * GridDimensions + j] = 1;
 		}
 	}
 }
 
-void AGameGrid::SetBreakablesID()
+void AGameGrid::SetBreakables()
 {
 	//Each Second element from second row and column fill with breakables
-	for (iSize = 0; iSize < GridDimensions; ++iSize)
+	for (int32 i = 0; i < GridDimensions; ++i)
 	{
-		for (jSize = 0; jSize < GridDimensions; ++jSize)
+		for (int32 j = 0; j < GridDimensions; ++j)
 		{
 			//Recieve ID from location on grid
-			if (LocationToGridArray[iSize * GridDimensions + jSize] == 0)
+			if (LocationToGridArray[i * GridDimensions + j] == 0)
 			{
-				LocationToGridArray[iSize * GridDimensions + jSize] = 2;
-				breakablesCounter = breakablesCounter + 1;
+				LocationToGridArray[i * GridDimensions + j] = 2;
 			}
 		}	
 	}
 	// Randomly delete few breakables in each row
-	for (iSize = 0; iSize < GridDimensions; ++iSize)
+	for (int32 i = 0; i < GridDimensions; ++i)
 	{
-		for (jSize = 0; jSize < GridDimensions; ++jSize)
+		for (int32 j = 0; j < GridDimensions; ++j)
 		{
 			//Randomizer
 			int32 RandElem = rand() % (DestructablesAmount * DestructablesAmount);
-			if (LocationToGridArray[iSize * GridDimensions + jSize] == 2 && RandElem > DestructablesAmount)
+			if (LocationToGridArray[i * GridDimensions + j] == 2 && RandElem > DestructablesAmount)
 			{
-				LocationToGridArray[iSize * GridDimensions + jSize] = 0;
-				breakablesCounter = breakablesCounter - 1;
+				LocationToGridArray[i * GridDimensions + j] = 0;
 			}
 		}
 	}
@@ -98,7 +91,7 @@ void AGameGrid::SetBreakablesID()
 	{
 		LocationToGridArray[i] = 0;
 	}
-	//Clear last 4 cells for player #2 start position
+	//TODO: Clear last 4 cells for player #2 start position
 	for (int32 i = sizeof(LocationToGridArray) / sizeof(LocationToGridArray[0]); i > (sizeof(LocationToGridArray) / sizeof(LocationToGridArray[0])) - 4; --i)
 	{
 		LocationToGridArray[i] = 0;
@@ -107,20 +100,14 @@ void AGameGrid::SetBreakablesID()
 
 void AGameGrid::SetSpawnPoints()
 {
-	//ToDo implement spawning
+	//TODO: implement spawning
 	LocationToGridArray[0] = 3;
-	
-
+	LocationToGridArray[GridDimensions * GridDimensions - 1] = 3;
 }
 
 void AGameGrid::Debug()
 {
 	// Check is vector resized
 	UE_LOG(LogTemp, Warning, TEXT("Grid Array Size: %d"), sizeof(LocationToGridArray) / sizeof(LocationToGridArray[0]));
-	// Check is breakables spawned
-	UE_LOG(LogTemp, Warning, TEXT("Number of Breakables: %d"), breakablesCounter);
-	// Check is unbrakables spawned
-	UE_LOG(LogTemp, Warning, TEXT("Number of Unbreakables: %d"), UnbreakablesCounter);
-
 }
 
