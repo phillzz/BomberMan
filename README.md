@@ -41,26 +41,5 @@ Classes:
 		BP_FasterRun = x2 speed for 6 seconds;
 		BP_MoreBombs = +5 bombs;
 		BP_RemoteControll = just remote control.
----------------------------------------------------------------------	
-Future Steps:
-
-	- refactoring movement system to grid related 
-	- refactoring spawn location for bombs to grid related
-	- refactoring bomb blow system (check if the grid location contain object)
-	- refactoring remote control system
-	- refactoring random algorithm for drops and drop amount 
-	- refactoring UI
-	- Add to grid playerStart points for spawning players
-	- Add some animation to bombs
-	- Add camera shake on blow
-	- Add sound system
-	- Add visual effects
-
----------------------------------------------------------------------	
-All Game related content can be found in BombermanFolder. Note some times you can find redirect to materials from starter content pack. 
-
-Only task that wasn't done: Bonus: AI enemies that behave like a player.
-
-Spended time  ~25 hours
 
 
