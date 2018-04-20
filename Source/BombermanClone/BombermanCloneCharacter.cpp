@@ -66,6 +66,25 @@ void ABombermanCloneCharacter::ResetBombDefaults(int32 CurrentBombCount)
 FTransform ABombermanCloneCharacter::SpawnTransform()
 {
 	FTransform Transform = GetActorTransform();
-	Transform.SetLocation(GetActorLocation() + GetActorForwardVector() * 100.f);
+	FVector SpawnLocation = Transform.GetLocation();
+	FVector PredictedSpawnLocatin = Transform.GetLocation() + GetActorForwardVector() * 200.f;
+	float DistanceToGridCellCenter = 100.f;
+
+	int32 x = FMath::FloorToInt(((PredictedSpawnLocatin.X + DistanceToGridCellCenter) / 200.f));
+	int32 y = FMath::FloorToInt(((PredictedSpawnLocatin.Y + DistanceToGridCellCenter) / 200.f));
+	int32 ID = x * 13 + y;
+
+	// Disable spawn at non grid location
+	if (ID == 0)
+	{
+
+	}
+	// Transform location to Grid ID
+			
+	// Disable spawn at non horizontal or vertical locations
+
+	Transform.SetLocation(FVector(ID / 13 * 200.f, ID % 13 * 200.f, 0.f));
+	
 	return Transform;
 }
+

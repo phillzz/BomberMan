@@ -1,22 +1,24 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "GameGrid.h"
 
+#include "GameGrid.h"
+#include "BombermanCloneGameMode.h"
 
 // Sets default values
 AGameGrid::AGameGrid()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
 	Reset();
 }
 
 void AGameGrid::Reset()
 {
-	iSize = 0;
-	jSize = 0;
 	GridDimensions = 13;
 	DestructablesAmount = 3;
+	CellSize = 200;
+
+	ResizeGrid();
 }
 
 FTransform AGameGrid::GridSizeToLocation(int32 ID)
@@ -31,12 +33,81 @@ FTransform AGameGrid::GridSizeToLocation(int32 ID)
 void AGameGrid::BeginPlay()
 {
 	Super::BeginPlay();
+	Debug();
 }
 
 // Called every frame
 void AGameGrid::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+}
 
+void AGameGrid::ResizeGrid()
+{
+	LocationToGridArray.Init(0, GridDimensions*GridDimensions);
+}
+
+// Functions Defenition
+void AGameGrid::SetUnbreakables()
+{
+	for (int32 i = 1; i < GridDimensions - 1; i = i + 2)
+	{
+		for (int32 j = 1; j < GridDimensions - 1; j = j +2)
+		{
+			LocationToGridArray[i * GridDimensions + j] = 1;
+		}
+	}
+}
+
+void AGameGrid::SetBreakables()
+{
+	//Each Second element from second row and column fill with breakables
+	for (int32 i = 0; i < GridDimensions; ++i)
+	{
+		for (int32 j = 0; j < GridDimensions; ++j)
+		{
+			//Recieve ID from location on grid
+			if (LocationToGridArray[i * GridDimensions + j] == 0)
+			{
+				LocationToGridArray[i * GridDimensions + j] = 2;
+			}
+		}	
+	}
+	// Randomly delete few breakables in each row
+	for (int32 i = 0; i < GridDimensions; ++i)
+	{
+		for (int32 j = 0; j < GridDimensions; ++j)
+		{
+			//Randomizer
+			int32 RandElem = rand() % (DestructablesAmount * DestructablesAmount);
+			if (LocationToGridArray[i * GridDimensions + j] == 2 && RandElem > DestructablesAmount)
+			{
+				LocationToGridArray[i * GridDimensions + j] = 0;
+			}
+		}
+	}
+	//Clear first 4 cells for player #1 start position
+	for (int32 i = 0; i < 4; ++i)
+	{
+		LocationToGridArray[i] = 0;
+	}
+	//TODO: Clear last 4 cells for player #2 start position
+	for (int32 i = sizeof(LocationToGridArray) / sizeof(LocationToGridArray[0]); i > (sizeof(LocationToGridArray) / sizeof(LocationToGridArray[0])) - 4; --i)
+	{
+		LocationToGridArray[i] = 0;
+	}
+}
+
+void AGameGrid::SetSpawnPoints()
+{
+	//TODO: implement spawning
+	LocationToGridArray[0] = 3;
+	LocationToGridArray[GridDimensions * GridDimensions - 1] = 3;
+}
+
+void AGameGrid::Debug()
+{
+	// Check is vector resized
+	UE_LOG(LogTemp, Warning, TEXT("Grid Array Size: %d"), sizeof(LocationToGridArray) / sizeof(LocationToGridArray[0]));
 }
 

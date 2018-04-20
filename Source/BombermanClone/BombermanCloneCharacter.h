@@ -19,6 +19,7 @@ public:
 
 	void ResetActorDefaults();
 
+
 	UFUNCTION(BlueprintCallable, Category = Bomb)
 		void ResetBombDefaults(int32 CurrentBombCount);
 
