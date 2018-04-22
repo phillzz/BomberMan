@@ -34,13 +34,11 @@ ABombermanCloneCharacter::ABombermanCloneCharacter()
 void ABombermanCloneCharacter::Tick(float DeltaSeconds)
 {
     Super::Tick(DeltaSeconds);
-	
 }
 
 void ABombermanCloneCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 void ABombermanCloneCharacter::ResetActorDefaults()
@@ -74,17 +72,131 @@ FTransform ABombermanCloneCharacter::SpawnTransform()
 	int32 y = FMath::FloorToInt(((PredictedSpawnLocatin.Y + DistanceToGridCellCenter) / 200.f));
 	int32 ID = x * 13 + y;
 
-	// Disable spawn at non grid location
+	//TODO: check if the cell is empty
+		// check span id if equal 0 then spawn.
+	//Check if the cell id is near player location id
+		//Check if bomb location id is near player id to prevent wrong spawn
+	//Prevent non vertical or horizontal spawn
+		// exclude from spawning on this directions
+	UWorld* const World = GetWorld();
 	if (ID == 0)
 	{
-
+		
 	}
-	// Transform location to Grid ID
-			
-	// Disable spawn at non horizontal or vertical locations
-
 	Transform.SetLocation(FVector(ID / 13 * 200.f, ID % 13 * 200.f, 0.f));
+	// Disable spawn at non horizontal or vertical locations
+	
 	
 	return Transform;
 }
+//TODO: complete game action call event
+void ABombermanCloneCharacter::GameActionCall()
+{
+	// Do we have bombs to place?
+	if (BombCount >= 1)
+	{
+		//Check if player have remote bomb
+		if (bRemoteActive)
+		{	
+			// If it is first click then spawn a remote bomb
+			if (bFirstClick)
+			{
+				//TODO: check if the cell is empty
+				//Check if the cell id is near player location id
+				SpawnRemoteBomb();
+				if (RemoteBomb != NULL)
+				{	
+					Bomb->GetDefaultObject<ABomb>()->SetBombRange(BombRange);
+					BombCount = BombCount - 1;
+					bFirstClick = false;
+				}
+			}
+			// if it is not first click then destroy remote bomb
+			else
+			{
+				//DestroyRemoteBomb();
+			}
+		}
+		// if no, then spawn a usual bomb
+		else 
+		{
+			//TODO: check if the cell is empty
+			//Check if the cell id is near player location id
+			SpawnBomb();
+			if (Bomb != NULL)
+			{
+				Bomb->GetDefaultObject<ABomb>()->SetBombRange(BombRange);
+				BombCount = BombCount - 1;
+				GetWorld()->GetTimerManager().SetTimer(LoopTimerHandle, this, &ABombermanCloneCharacter::OnTimerEnd, 1.f, false);
+			}	
+		}
+	}
+	// if this is first click then reset bomb count
+	if (bFirstClick)
+	{
+		GetWorld()->GetTimerManager().SetTimer(LoopTimerHandle, this, &ABombermanCloneCharacter::OnTimerEnd, 1.f, false);
+	}	
+	// if it isn't first click then send message to detroy bomb
+	else 
+	{
+		
+		//DestroyBombMessage();
+		/*
+		if (Bomb->GetClass()->ImplementsInterface(UBombermanInteractionInterface::StaticClass()))
+		{
+			IBombermanInteractionInterface::Execute_FunctionName(Bomb);
+		}
+		*/
+		ResetBombDefaults(BombCount);
+		bFirstClick = true;
+		bRemoteActive = false;
+	}
+}
 
+void ABombermanCloneCharacter::SpawnBomb()
+{
+	if (Bomb != NULL)
+	{
+		UWorld* const World = GetWorld();
+		if (World)
+		{
+			FActorSpawnParameters SpawnParams;
+			SpawnParams.Owner = this;
+			SpawnParams.Instigator = Instigator;
+
+			FTransform Transform = SpawnTransform();
+			FVector Location = Transform.GetLocation();
+
+			ABomb* const NewBomb = World->SpawnActor<ABomb>(Bomb, Location, FRotator::ZeroRotator, SpawnParams);
+		}
+	}
+}
+
+void ABombermanCloneCharacter::SpawnRemoteBomb()
+{
+	if (RemoteBomb != NULL)
+	{
+		UWorld* const World = GetWorld();
+		if (World)
+		{
+			FActorSpawnParameters SpawnParams;
+			SpawnParams.Owner = this;
+			SpawnParams.Instigator = Instigator;
+
+			FTransform Transform = SpawnTransform();
+			FVector Location = Transform.GetLocation();
+
+			ABomb* const NewRemoteBomb = World->SpawnActor<ABomb>(RemoteBomb, Location, FRotator::ZeroRotator, SpawnParams);
+			UE_LOG(LogTemp, Warning, TEXT("RemoteBomb Online"));
+		}
+	}
+}
+
+void ABombermanCloneCharacter::DestroyRemoteBomb()
+{
+}
+
+void ABombermanCloneCharacter::OnTimerEnd()
+{
+	ResetBombDefaults(BombCount);
+}

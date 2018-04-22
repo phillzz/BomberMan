@@ -3,7 +3,10 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Engine.h"
 #include "GameFramework/Character.h"
+#include "Bomb.h"
+#include "GameGrid.h"
 #include "BombermanCloneCharacter.generated.h"
 
 UCLASS(Blueprintable)
@@ -16,26 +19,40 @@ public:
 
 	virtual void Tick(float DeltaSeconds) override;
 	virtual void BeginPlay() override;
-
-	void ResetActorDefaults();
-
-
+	
+	//Internal use functions
+	UFUNCTION()
+		void ResetActorDefaults();
+	UFUNCTION()
+		void OnTimerEnd();
+	//Player Controller Related Functions
+	UFUNCTION(BlueprintCallable, Category = PlayerController)
+		void GameActionCall();
+	//Bomb Related Functions
 	UFUNCTION(BlueprintCallable, Category = Bomb)
 		void ResetBombDefaults(int32 CurrentBombCount);
-
+	UFUNCTION(BlueprintCallable, Category = Bomb)
+		void SpawnBomb();
+	UFUNCTION(BlueprintCallable, Category = Bomb)
+		void SpawnRemoteBomb();
+	UFUNCTION(BlueprintCallable, Category = Bomb)
+		void DestroyRemoteBomb();
 	UFUNCTION(BlueprintPure, Category = Bomb)
 		FTransform SpawnTransform();
 
+	UPROPERTY()
+		FTimerHandle LoopTimerHandle;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Bomb)
 		int32 BombCount;
-
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Bomb)
 		float BombRange;
-
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Bomb)
 		bool bRemoteActive;
-
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Bomb)
 		bool bFirstClick;
+	UPROPERTY(EditAnywhere, Category = Bomb)
+		TSubclassOf<class ABomb> Bomb;
+	UPROPERTY(EditAnywhere, Category = Bomb)
+		TSubclassOf<class ABomb> RemoteBomb;
 };
 

@@ -61,12 +61,12 @@ void AGameGrid::SetUnbreakables()
 
 void AGameGrid::SetBreakables()
 {
-	//Each Second element from second row and column fill with breakables
+	//Fill grid except occupied cells by Breakables
 	for (int32 i = 0; i < GridDimensions; ++i)
 	{
 		for (int32 j = 0; j < GridDimensions; ++j)
 		{
-			//Recieve ID from location on grid
+			//Check if empty cell, then place a breakable
 			if (LocationToGridArray[i * GridDimensions + j] == 0)
 			{
 				LocationToGridArray[i * GridDimensions + j] = 2;
@@ -91,8 +91,8 @@ void AGameGrid::SetBreakables()
 	{
 		LocationToGridArray[i] = 0;
 	}
-	//TODO: Clear last 4 cells for player #2 start position
-	for (int32 i = sizeof(LocationToGridArray) / sizeof(LocationToGridArray[0]); i > (sizeof(LocationToGridArray) / sizeof(LocationToGridArray[0])) - 4; --i)
+	//Clear last 4 cells for player #2 start position
+	for (int32 i = GridDimensions * GridDimensions - 1; i > GridDimensions * GridDimensions - 5; --i)
 	{
 		LocationToGridArray[i] = 0;
 	}
@@ -100,7 +100,6 @@ void AGameGrid::SetBreakables()
 
 void AGameGrid::SetSpawnPoints()
 {
-	//TODO: implement spawning
 	LocationToGridArray[0] = 3;
 	LocationToGridArray[GridDimensions * GridDimensions - 1] = 3;
 }
