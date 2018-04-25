@@ -3,12 +3,16 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "GameInterraction.h"
 #include "GameFramework/Actor.h"
-#include "BombermanInteractionInterface.h"
+#include "Engine.h"
+#include "Destructable.h"
+#include "Pickups.h"
+#include "vector.h"
 #include "Bomb.generated.h"
 
 UCLASS()
-class BOMBERMANCLONE_API ABomb : public AActor
+class BOMBERMANCLONE_API ABomb : public AActor, public IGameInterraction
 {
 	GENERATED_BODY()
 	
@@ -18,11 +22,11 @@ public:
 
 	virtual void Tick(float DeltaTime) override;
 	void SetBombRange(float currentRange);
-/*
-	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = Bomb)
-		bool DestroyBomb();
-	virtual bool DestroyBomb_Implementation() override;
-*/
+	UFUNCTION(BlueprintNativeEvent, Category = GameInterraction)
+		void destroyBombVictim();
+	UFUNCTION(blueprintcallable, Category = Bomb)
+		void CheckForVictims();
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -34,6 +38,6 @@ private:
 
 	//TODO: Implemebt those fuctions
 	FVector GetRichLineStart();
-	FVector GetRichLineEnd();
 	const FHitResult GetVictims();
+
 };

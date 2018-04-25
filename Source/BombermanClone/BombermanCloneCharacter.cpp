@@ -31,6 +31,11 @@ ABombermanCloneCharacter::ABombermanCloneCharacter()
 	ResetActorDefaults();
 }
 
+void ABombermanCloneCharacter::destroyBombVictim_Implementation()
+{
+	Destroy();
+}
+
 void ABombermanCloneCharacter::Tick(float DeltaSeconds)
 {
     Super::Tick(DeltaSeconds);
@@ -92,6 +97,7 @@ FTransform ABombermanCloneCharacter::SpawnTransform()
 //TODO: complete game action call event
 void ABombermanCloneCharacter::GameActionCall()
 {
+	ABomb* CurrentBomb = nullptr;
 	// Do we have bombs to place?
 	if (BombCount >= 1)
 	{
@@ -103,8 +109,8 @@ void ABombermanCloneCharacter::GameActionCall()
 			{
 				//TODO: check if the cell is empty
 				//Check if the cell id is near player location id
-				SpawnRemoteBomb();
-				if (RemoteBomb != NULL)
+				SpawnRemoteBomb(CurrentBomb);
+				if (CurrentBomb != NULL)
 				{	
 					Bomb->GetDefaultObject<ABomb>()->SetBombRange(BombRange);
 					BombCount = BombCount - 1;
@@ -122,8 +128,8 @@ void ABombermanCloneCharacter::GameActionCall()
 		{
 			//TODO: check if the cell is empty
 			//Check if the cell id is near player location id
-			SpawnBomb();
-			if (Bomb != NULL)
+			SpawnBomb(CurrentBomb);
+			if (CurrentBomb != NULL)
 			{
 				Bomb->GetDefaultObject<ABomb>()->SetBombRange(BombRange);
 				BombCount = BombCount - 1;
@@ -153,12 +159,13 @@ void ABombermanCloneCharacter::GameActionCall()
 	}
 }
 
-void ABombermanCloneCharacter::SpawnBomb()
+void ABombermanCloneCharacter::SpawnBomb(ABomb* CurrentsBomb)
 {
+
 	if (Bomb != NULL)
 	{
 		UWorld* const World = GetWorld();
-		if (World)
+		if (World) 
 		{
 			FActorSpawnParameters SpawnParams;
 			SpawnParams.Owner = this;
@@ -167,12 +174,13 @@ void ABombermanCloneCharacter::SpawnBomb()
 			FTransform Transform = SpawnTransform();
 			FVector Location = Transform.GetLocation();
 
-			ABomb* const NewBomb = World->SpawnActor<ABomb>(Bomb, Location, FRotator::ZeroRotator, SpawnParams);
+			ABomb* NewBomb = World->SpawnActor<ABomb>(Bomb, Location, FRotator::ZeroRotator, SpawnParams);
+			CurrentsBomb = NewBomb;
 		}
 	}
 }
 
-void ABombermanCloneCharacter::SpawnRemoteBomb()
+void ABombermanCloneCharacter::SpawnRemoteBomb(ABomb* CurrentsBomb)
 {
 	if (RemoteBomb != NULL)
 	{

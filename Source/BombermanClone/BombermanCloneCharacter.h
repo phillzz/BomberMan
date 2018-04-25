@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "GameInterraction.h"
 #include "Engine.h"
 #include "GameFramework/Character.h"
 #include "Bomb.h"
@@ -10,12 +11,15 @@
 #include "BombermanCloneCharacter.generated.h"
 
 UCLASS(Blueprintable)
-class ABombermanCloneCharacter : public ACharacter
+class ABombermanCloneCharacter : public ACharacter, public IGameInterraction
 {
 	GENERATED_BODY()
 
 public:
 	ABombermanCloneCharacter();
+
+	UFUNCTION(BlueprintNativeEvent, Category = GameInterraction)
+		void destroyBombVictim();
 
 	virtual void Tick(float DeltaSeconds) override;
 	virtual void BeginPlay() override;
@@ -32,9 +36,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Bomb)
 		void ResetBombDefaults(int32 CurrentBombCount);
 	UFUNCTION(BlueprintCallable, Category = Bomb)
-		void SpawnBomb();
+		void SpawnBomb(ABomb* CurrentBomb);
 	UFUNCTION(BlueprintCallable, Category = Bomb)
-		void SpawnRemoteBomb();
+		void SpawnRemoteBomb(ABomb* CurrentBomb);
 	UFUNCTION(BlueprintCallable, Category = Bomb)
 		void DestroyRemoteBomb();
 	UFUNCTION(BlueprintPure, Category = Bomb)
@@ -55,4 +59,3 @@ public:
 	UPROPERTY(EditAnywhere, Category = Bomb)
 		TSubclassOf<class ABomb> RemoteBomb;
 };
-
